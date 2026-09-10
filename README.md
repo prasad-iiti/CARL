@@ -1,8 +1,8 @@
 # CARL
 
-Official PyTorch implementation of **CARL (Contrastive Adaptive Representation Learning)** for robust fine-grained skin lesion classification.
+Official PyTorch implementation of **Contrastive Adaptive Representation Learning for Robust Fine-Grained Skin Lesion Classification**.
 
-CARL combines **Context-Aware Adaptive Semantic Scale Selection (CA-AS3)**, **Context-Aware Fine-Grained Attention (CAFA)**, and **contrastive representation learning with feedback refinement** to improve fine-grained lesion discrimination and representation robustness. Contrastive feedback refinement is applied **only during training** and introduces no additional inference-time computational overhead.
+CARL combines **Context-Aware Adaptive Semantic Scale Selection (CA-AS3)**, **Contrastive Adaptive Fine-Grained Attention (CAFA)**, and **contrastive adaptive representation learning with feedback refinement** to improve fine-grained lesion discrimination and representation robustness. Contrastive feedback refinement is applied **only during training** and introduces no additional inference-time computational overhead.
 
 ---
 
