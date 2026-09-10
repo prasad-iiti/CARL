@@ -14,19 +14,12 @@ CARL/
 │   └── config.yaml
 │
 ├── datasets/
-│   ├── derm7pt/
 │   ├── ham10000/
 │   ├── padufes20/
-│   └── hiba/
 │
 ├── outputs/
 │   ├── experiments/
-│   └── results.csv
-│
-├── scripts/
-│   ├── train.py
-│   ├── evaluate.py
-│   └── ablation.py
+│   └── results.csv 
 │
 ├── src/
 │   ├── data.py
@@ -37,6 +30,9 @@ CARL/
 │   ├── trainer.py
 │   └── utils.py
 │
+├── train.py
+├── evaluate.py
+├── ablation.py
 ├── README.md
 ├── requirements.txt
 └── .gitignore
