@@ -15,7 +15,7 @@ CARL/
 │
 ├── datasets/
 │   ├── ham10000/
-│   ├── padufes20/
+│   └── padufes20/
 │
 ├── outputs/
 │   ├── experiments/
@@ -77,10 +77,8 @@ Place the datasets in the corresponding directories:
 
 ```text
 datasets/
-├── derm7pt/
 ├── ham10000/
-├── padufes20/
-└── hiba/
+└── padufes20/
 ```
 
 Configure dataset paths and experimental settings in:
@@ -119,7 +117,7 @@ The module operates on selected intermediate feature levels and uses:
 * Variance pooling
 * Learnable semantic-scale attention
 
-### 2. Context-Aware Feature Attention (CAFA)
+### 2. Context-Aware Fine-Grained Attention (CAFA)
 
 CAFA refines the aggregated representation using channel and spatial attention to emphasize diagnostically relevant feature responses.
 
