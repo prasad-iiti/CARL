@@ -1,0 +1,208 @@
+device: auto
+seed: 42
+
+reproducibility:
+  deterministic: false
+  benchmark: true
+
+experiment:
+  name: carl
+  run_id: r001
+  tags:
+    - carl
+
+dataset:
+  name: ham10000
+
+  registry:
+    derm7pt:
+      root: ${oc.env:DATASET_ROOT}/derm7pt/images
+      metadata_file: datasets/derm7pt/derm7pt_metadata_clean.csv
+      num_classes: 5
+
+    ham10000:
+      root: ${oc.env:DATASET_ROOT}/ham10000/images
+      metadata_file: datasets/ham10000/ham10000_metadata_clean.csv
+      num_classes: 7
+
+    padufes20:
+      root: ${oc.env:DATASET_ROOT}/padufes20/images
+      metadata_file: datasets/padufes20/padufes20_metadata_clean.csv
+      num_classes: 6
+
+    hiba:
+      root: ${oc.env:DATASET_ROOT}/hiba/images
+      metadata_file: datasets/hiba/hiba_metadata_clean.csv
+      num_classes: 10
+
+  task: multiclass
+  patient_level_split: false
+  verify_files: true
+  verify_metadata: true
+  cache_metadata: true
+  cache_images: false
+  return_metadata: true
+  drop_last: false
+
+  label_column: label
+  binary_label_column: binary_label
+
+  splits:
+    train: train
+    val: val
+    test: test
+
+  metadata:
+    image: image_name
+    patient: patient_id
+    split: split
+    age: age
+    sex: sex
+    location: location
+
+  image_size: 224
+  interpolation: bilinear
+
+  batch_size: 32
+  num_workers: 8
+  pin_memory: true
+  persistent_workers: true
+
+  loader:
+    backend: opencv 
+    color_mode: rgb
+
+  shuffle:
+    train: true
+    val: false
+    test: false
+
+  normalization:
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+
+augmentation:
+  train:
+    hflip:
+      enabled: true
+      p: 0.1
+    vflip:
+      enabled: true
+      p: 0.1
+    color_jitter:
+      enabled: true
+      p: 0.1
+    rotation: 20
+
+backbone:
+  name: efficientnet_b0 
+  pretrained: true
+  checkpointing: false
+  freeze_backbone: false
+
+ca_as3:
+  enabled: true
+  feature_levels:
+    - layer2
+    - layer3
+    - layer4
+  alignment: bilinear
+  pooling:
+    average: true
+    maximum: true
+    variance: true
+  hidden_dim: 512
+  attention_heads: 4
+  dropout: 0.1
+
+cafa:
+  enabled: true
+  channel_attention: true
+  spatial_attention: true
+  kernel_size: 7
+  reduction_ratio: 16
+
+carl:
+  enabled: true
+  embedding_dim: 128
+  proj_hidden_dim: 512
+  num_layers: 3
+  proj_dropout: 0.1
+  proj_activation: relu
+  normalization: batchnorm
+  temperature: 0.1
+  attention_heads: 4
+  feedback_strength: 0.2
+  feedback_start_epoch: 40
+  training_feedback: true
+
+loss:
+  classification: focal 
+  focal_gamma: 5.0
+  focal_use_class_weights: true
+  metric: supervised_contrastive
+  classification_weight: 1.0
+  metric_weight: 0.1
+  focal_weight: 1.0
+  class_weight: auto
+
+optimizer:
+  name: adamw
+  backbone_lr: 5e-5
+  head_lr: 5e-5
+  weight_decay: 1e-7
+  betas: [0.9, 0.999]
+  eps: 1e-8
+
+scheduler:
+  name: cosine
+  min_lr: 3e-5
+  warmup_epochs: 40
+  warmup_start_lr: 3e-5
+
+training:
+  epochs: 200
+  validate_every: 1
+  grad_clip: 5.0
+  use_amp: false
+  log_every: 10
+  patience: 200
+  save_seed: true
+
+metrics:
+  primary: accuracy
+  secondary:
+    - balanced_accuracy
+    - macro_f1
+    - roc_auc
+    - precision_macro
+    - recall_macro
+
+checkpoint:
+  mode: max
+  resume: false
+  save_best: true
+  save_last: true
+
+output:
+  save_dir: outputs
+  save_predictions: true
+  save_confusion_matrix: true
+  save_embeddings: true
+  save_attention_maps: false
+  save_tsne: false
+  save_gradcam: false
+  save_feature_weights: true
+
+inference:
+  tta: false
+  batch_size: 32
+
+logging:
+  tensorboard: false
+  csv: true
+  wandb: false
+
+hydra:
+  run:
+    dir: outputs/experiments/${now:%Y-%m-%d}/${now:%H-%M-%S}_${experiment.name}
