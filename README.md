@@ -117,17 +117,13 @@ The module operates on selected intermediate feature levels and uses:
 * Variance pooling
 * Learnable semantic-scale attention
 
-### 2. Context-Aware Fine-Grained Attention (CAFA)
+### 2. Contrastive Adaptive Fine-Grained Attention (CAFA)
 
 CAFA refines the aggregated representation using channel and spatial attention to emphasize diagnostically relevant feature responses.
 
-### 3. Contrastive Representation Learning
+### 3. Contrastive Adaptive Representation Learning with Feedback Refinement
 
-CARL jointly optimizes classification and supervised contrastive objectives to improve the separability of fine-grained lesion representations.
-
-### 4. Contrastive Feedback Refinement
-
-The learned representation is refined using contrastive feedback during training. This refinement is used only during optimization and does not introduce additional inference-time processing.
+CARL jointly optimizes classification and supervised contrastive objectives to improve the separability of fine-grained lesion representations. The learned representation is refined using contrastive feedback during training. This refinement is used only during optimization and does not introduce additional inference-time processing.
 
 ---
 
